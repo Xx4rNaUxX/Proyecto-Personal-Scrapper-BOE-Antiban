@@ -1,0 +1,116 @@
+# ============================================================
+# ARBITRAJE LEGAL ENGINE - Configuración Central
+# ============================================================
+
+general:
+  scan_interval_minutes: 30        # Intervalo entre escaneos
+  database_path: "data/arbitraje.db"
+  log_level: "INFO"
+  log_file: "data/engine.log"
+
+# --- Vector 1: Licitaciones Desiertas (PLACSP) ---
+placsp:
+  enabled: true
+  atom_feeds:
+    # Feed COMPLETO de licitaciones (todos los perfiles de contratante)
+    # URL verificada en produccion - devuelve ~398 entradas con estado RES/PUB/etc.
+    - "https://contrataciondelestado.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3.atom"
+  # Filtros de contrato
+  min_presupuesto: 15000       # € mínimo PBL
+  max_presupuesto: 100000      # € máximo PBL
+  min_margen_bruto: 0.35       # 35% mínimo para considerar viable
+  # Códigos CPV de interés (servicios TI, consultoría, digitalización)
+  cpv_preferidos:
+    - "72000000"   # Servicios TI
+    - "72200000"   # Programación y consultoría
+    - "72300000"   # Servicios de datos
+    - "72400000"   # Servicios de Internet
+    - "79000000"   # Servicios empresariales
+    - "48000000"   # Paquetes de software
+  # Datos del solicitante para el escrito automático
+  solicitante:
+    nombre: "PENDIENTE DE CONFIGURAR"
+    nif: "BXXXXXXXX"
+    domicilio: "Calle Ejemplo 1, 28001 Madrid"
+    email: "contacto@ejemplo.es"
+    telefono: "+34600000000"
+    rolece: ""  # Número de inscripción en ROLECE (si aplica)
+
+# --- Vector 2: Necromancia de Marcas (BOPI/OEPM) ---
+bopi:
+  enabled: true
+  bopi_xml_url: "https://www.oepm.es/es/sobre_oepm/servicios_informaticos/datos_abiertos/"
+  # Filtros de marca
+  min_antiguedad_anos: 10        # Solo marcas con >10 años de historia
+  clases_niza_interes:           # Clases de Niza con márgenes altos
+    - 25  # Calzado, vestimenta
+    - 29  # Alimentación
+    - 30  # Café, harinas, cereales
+    - 33  # Bebidas alcohólicas
+    - 35  # Publicidad, gestión empresarial
+    - 42  # Servicios TI
+    - 7   # Maquinaria
+    - 8   # Herramientas manuales
+  # Umbrales de valor residual
+  min_domain_authority: 10
+  min_backlinks: 50
+  min_busquedas_mensuales: 100
+  # Verificación de dominios
+  dominios_extensiones:
+    - ".es"
+    - ".com"
+
+# --- Vector 3: Radar Concursal (Ley 16/2022) ---
+concursal:
+  enabled: true
+  plataforma_url: "https://subastas.boe.es"
+  # Categorías de interés (solo activos de alto valor / bajo volumen)
+  categorias_interes:
+    - "BIENES MUEBLES - EQUIPOS INFORMÁTICOS"
+    - "BIENES MUEBLES - ELECTRÓNICA"
+    - "BIENES MUEBLES - MAQUINARIA"
+    - "PROPIEDAD INDUSTRIAL"
+    - "PROPIEDAD INTELECTUAL"
+  # Categorías a excluir (logística pesada)
+  categorias_excluir:
+    - "VEHÍCULOS"
+    - "INMUEBLES"
+    - "MAQUINARIA PESADA"
+  # Margen mínimo estimado para considerar un lote
+  min_margen_estimado: 0.40     # 40% de margen sobre precio liquidación
+  # Keywords de hardware valioso
+  keywords_alto_valor:
+    - "NVIDIA"
+    - "GPU"
+    - "RTX"
+    - "Tesla"
+    - "A100"
+    - "Cisco"
+    - "Dell PowerEdge"
+    - "HP ProLiant"
+    - "Juniper"
+    - "servidor"
+    - "rack"
+    - "switch"
+    - "firewall"
+    - "SSD"
+    - "NVMe"
+
+# --- Notificaciones ---
+notifications:
+  telegram:
+    enabled: false
+    bot_token: ""
+    chat_id: ""
+  email:
+    enabled: false
+    smtp_host: ""
+    smtp_port: 587
+    username: ""
+    password: ""
+    to_address: ""
+
+# --- Dashboard ---
+dashboard:
+  host: "127.0.0.1"
+  port: 8081

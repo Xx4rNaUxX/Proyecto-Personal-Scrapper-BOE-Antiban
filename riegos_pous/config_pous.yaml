@@ -1,0 +1,160 @@
+# ============================================================
+# RIEGOS POUS, S.L. - Sistema de Inteligencia y Oportunidades
+# Empresa de Soluciones Hidráulicas, Agricultura y Energía Solar
+# Sede: Av. de Valencia, 26-32, 46770 Xeraco (Valencia)
+# ============================================================
+
+general:
+  empresa: "Riegos Pous, S.L."
+  cif: "BXXXXXXXX"
+  direccion: "Av. de Valencia, 26-32, 46770 Xeraco, Valencia"
+  telefono: "+34 962 83 60 00"
+  email: "info@riegospous.com"
+  web: "https://riegospous.com"
+  scan_interval_minutes: 30
+  database_path: "riegos_pous/data/riegos_pous.db"
+  log_level: "INFO"
+  log_file: "riegos_pous/data/pous_engine.log"
+
+# --- Vector 1: Licitaciones Públicas y Obras Hidráulicas (PLACSP) ---
+placsp:
+  enabled: true
+  atom_feeds:
+    - "https://contrataciondelestado.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3.atom"
+  
+  # Filtro territorial prioritario
+  territorios_interes:
+    - "Valencia"
+    - "València"
+    - "Alicante"
+    - "Alacant"
+    - "Castellón"
+    - "Castelló"
+    - "Comunidad Valenciana"
+    - "Comunitat Valenciana"
+    - "Confederación Hidrográfica del Júcar"
+    - "CHJ"
+    - "Safor"
+    - "Gandia"
+    - "Gandía"
+    - "Xeraco"
+    - "Xeresa"
+    - "Oliva"
+    - "Alzira"
+    - "Sueca"
+    - "Cullera"
+    - "Albaida"
+    - "Ontinyent"
+
+  # Códigos CPV del sector del agua, riego, bombeo y energía solar
+  cpv_preferidos:
+    - "42122130"   # Bombas de agua
+    - "42122000"   # Bombas de líquido
+    - "45232120"   # Obras de construcción de instalaciones de riego
+    - "45232121"   # Tuberías de riego
+    - "50532300"   # Reparación y mantenimiento de bombas
+    - "09331200"   # Módulos solares fotovoltaicos (bombeo solar)
+    - "45232410"   # Obras de saneamiento / colectores
+    - "42122220"   # Bombas sumergibles
+    - "45247270"   # Obras de construcción de estaciones de bombeo
+
+  # Palabras clave del negocio de Riegos Pous
+  keywords_interes:
+    - "bomba"
+    - "sumergible"
+    - "pozo"
+    - "riego"
+    - "goteo"
+    - "hidráulic"
+    - "bombeo"
+    - "grupo de presión"
+    - "acequia"
+    - "depósito de agua"
+    - "tubería"
+    - "bombeo solar"
+    - "fotovoltaic"
+    - "electromecánic"
+    - "cuadro de maniobra"
+    - "variador"
+    - "sondeo"
+    - "júcar"
+    - "comunidad de regantes"
+
+  min_presupuesto: 5000       # Contratos menores desde 5.000 €
+  max_presupuesto: 500000     # Hasta obras de 500.000 €
+
+# --- Vector 2: Subastas BOE (Fincas con Pozo y Maquinaria Hidráulica) ---
+boe:
+  enabled: true
+  portal_url: "https://subastas.boe.es"
+  provincias_interes:
+    - "Valencia"
+    - "Alicante"
+    - "Castellón"
+  
+  # Tipos de activos donde Riegos Pous tiene ventaja competitiva
+  tipos_activos:
+    - "FINCA RÚSTICA CON POZO"
+    - "PARCELA AGRÍCOLA CON DERECHO DE RIEGO"
+    - "NAVE AGRÍCOLA / INDUSTRIAL"
+    - "MAQUINARIA AGRÍCOLA / GRUPO ELECTRÓGENO"
+    - "MOTORES Y BOMBAS INDUSTRIALES"
+    - "CAMIONES PLUMA / VEHÍCULOS DE SERVICIO"
+
+  keywords_fincas_pozo:
+    - "pozo"
+    - "sondeo"
+    - "concesión de aguas"
+    - "chj"
+    - "derecho de riego"
+    - "cabezal de riego"
+    - "balsa"
+    - "goteo"
+    - "cítricos"
+    - "naranjos"
+    - "regadío"
+
+  max_deposito: 20000.0       # Depósito máximo asumible para pujar
+  max_cargas_toleradas: 0.0   # Solo activos limpios sin cargas ocultas
+
+# --- Vector 3: Radar de Maquinaria y Stocks de Riego en Liquidación ---
+suministros:
+  enabled: true
+  marcas_bombas_interes:
+    - "Caprari"
+    - "Grundfos"
+    - "Rovatti"
+    - "Franklin Electric"
+    - "Ebara"
+    - "Lowara"
+    - "KSB"
+    - "Indar"
+  
+  equipos_interes:
+    - "Generador diésel / Grupo electrógeno (50 a 250 kVA)"
+    - "Variadores solares de bombeo (Fuji, Invertek, ABB)"
+    - "Placas solares monocristalinas (> 450W)"
+    - "Electroválvulas y filtros automáticos (Bermad, Netafim, Azud)"
+    - "Tubería de PE agrícola bobinas 100m"
+
+# --- Vector 4: Radar de Subvenciones Generalitat Valenciana (DOGV / BDNS) ---
+dogv:
+  enabled: true
+  min_porcentaje_ayuda: 40
+  keywords:
+    - "regadío"
+    - "bombeo solar"
+    - "eficiencia hídrica"
+    - "comunidades de regantes"
+    - "goteo"
+
+# --- Módulo de Movilidad: Alertas Telegram al Móvil del Jefe ---
+telegram:
+  enabled: false  # Cambiar a true cuando se peguen el bot_token y chat_id
+  bot_token: "PEGA_AQUI_TU_BOT_TOKEN_DE_TELEGRAM"
+  chat_id: "PEGA_AQUI_TU_CHAT_ID"
+
+# --- Dashboard Riegos Pous ---
+dashboard:
+  host: "127.0.0.1"
+  port: 8090
